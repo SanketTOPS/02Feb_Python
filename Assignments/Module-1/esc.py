@@ -1,6 +1,6 @@
 #print("Hello \'Python'!")
 #print('Hello \"Python"!')
 
-#print("Hello \nPython!")
+print(r"Hello \nPython!")
 #print("\tHello Python!")
-print("Hel\blo \bPython!")
+print(R"Hel\blo \bPython!")
