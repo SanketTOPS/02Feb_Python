@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Dashboard</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-black text-white px-6 py-4 flex justify-between items-center">
+        <h1 class="text-xl font-semibold">MyApp</h1>
+
+        <div class="flex items-center gap-4">
+            <!-- Django username -->
+            <span class="text-sm">
+                Welcome, <strong>{{user}}</strong>
+            </span>
+
+            {% if user is none %}
+            <a href="/" class="bg-white text-black px-4 py-1 rounded-lg hover:bg-gray-200 transition">
+                Login
+            </a>
+
+            {% else %}
+            <a href="/userlogout" class="bg-white text-black px-4 py-1 rounded-lg hover:bg-gray-200 transition">
+                Logout
+            </a>
+            {% endif %}
+
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="p-6">
+
+        {% if user is none %}
+        <!-- Welcome Section -->
+        <div class="bg-white rounded-xl shadow p-6 mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">
+                Oops!
+            </h2>
+            <p class="text-gray-600 mt-2">
+                If you have to use our services, <a href="/">Login</a> First! 🎉
+            </p>
+        </div>
+
+        {% else %}
+        <!-- Welcome Section -->
+        <div class="bg-white rounded-xl shadow p-6 mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">
+                Dashboard
+            </h2>
+            <p class="text-gray-600 mt-2">
+                You have successfully logged in 🎉
+            </p>
+        </div>
+
+        <!-- Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- Card 1 -->
+            <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition">
+                <h3 class="text-lg font-semibold text-gray-700">Profile</h3>
+                <p class="text-sm text-gray-500 mt-2">
+                    View and update your profile details.
+                </p>
+                <button class="mt-4 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800">
+                    Open
+                </button>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition">
+                <h3 class="text-lg font-semibold text-gray-700">Notes</h3>
+                <p class="text-sm text-gray-500 mt-2">
+                    Manage your notes and documents.
+                </p>
+                <button class="mt-4 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800">
+                    Open
+                </button>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition">
+                <h3 class="text-lg font-semibold text-gray-700">Settings</h3>
+                <p class="text-sm text-gray-500 mt-2">
+                    Configure your account preferences.
+                </p>
+                <button class="mt-4 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800">
+                    Open
+                </button>
+            </div>
+
+        </div>
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

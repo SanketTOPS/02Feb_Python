@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-r from-black via-gray-900 to-gray-800 flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-lg p-6">
+
+        <!-- Card -->
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+
+            <!-- Title -->
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">
+                Create Account
+            </h2>
+
+            <!-- Form -->
+            <form action="#" method="POST" class="space-y-4">
+
+                <!-- Django CSRF -->
+                {% csrf_token %}
+
+                <!-- Full Name -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Full Name</label>
+                    <input type="text" name="fullname" placeholder="Enter your name"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-black outline-none" required>
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Email</label>
+                    <input type="email" name="email" placeholder="Enter your email"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-black outline-none" required>
+                </div>
+
+                <!-- Mobile -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Mobile</label>
+                    <input type="tel" name="mobile" placeholder="Enter your mobile"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-black outline-none" required>
+                </div>
+
+                <!-- City -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">City</label>
+                    <input type="text" name="city" placeholder="Enter your city"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-black outline-none" required>
+                </div>
+
+                <!-- Password -->
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-black outline-none" required>
+                    <button type="button" onclick="togglePassword('password')"
+                        class="absolute right-3 top-9 text-sm text-gray-500">Show</button>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="cpassword" placeholder="Confirm password"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-black outline-none" required>
+                    <button type="button" onclick="togglePassword('confirm_password')"
+                        class="absolute right-3 top-9 text-sm text-gray-500">Show</button>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit"
+                    class="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition duration-300">
+                    Sign Up
+                </button>
+
+            </form>
+
+            <!-- Login Redirect -->
+            <p class="text-center text-sm text-gray-600 mt-5">
+                Already have an account?
+                <a href="login.html" class="text-black font-semibold hover:underline">
+                    Login
+                </a>
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- JS for password toggle -->
+    <script>
+        function togglePassword(id) {
+            const field = document.getElementById(id);
+            if (field.type === "password") {
+                field.type = "text";
+            } else {
+                field.type = "password";
+            }
+        }
+    </script>
+
+</body>
+
+</html>
