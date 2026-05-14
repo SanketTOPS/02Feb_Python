@@ -1,0 +1,35 @@
+{% extends 'Userapp/base.html' %}
+
+{% block title %}Unlock Note - NotesVault{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto">
+    <div class="glass-card p-10 shadow-2xl border-white/20">
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-white/10 rounded-full mb-4">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+            </div>
+            <h2 class="text-3xl font-bold gradient-text">Protected Note</h2>
+            <p class="text-gray-500 mt-2">This note is password protected.</p>
+        </div>
+
+        <form method="POST" class="space-y-6">
+            {% csrf_token %}
+            <div>
+                <label class="block text-sm font-medium text-gray-400 mb-2">Enter Password</label>
+                <input type="password" name="password" class="input-field w-full p-4 rounded-xl" placeholder="••••••••" required autofocus>
+            </div>
+            
+            <button type="submit" class="btn-primary w-full py-4 rounded-xl font-bold text-lg shadow-xl">
+                Unlock & View
+            </button>
+        </form>
+        
+        <div class="mt-8 text-center text-sm text-gray-500">
+            Forgot the password? Contact the owner of this note.
+        </div>
+    </div>
+</div>
+{% endblock %}

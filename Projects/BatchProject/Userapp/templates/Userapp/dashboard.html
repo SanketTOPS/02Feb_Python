@@ -1,0 +1,86 @@
+{% extends 'Userapp/base.html' %}
+
+{% block title %}Dashboard - NotesVault{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Sidebar / Upload Form -->
+    <div class="lg:col-span-1">
+        <div class="glass-card p-6 sticky top-8">
+            <h3 class="text-xl font-bold mb-6 gradient-text">Upload New Note</h3>
+            <form method="POST" enctype="multipart/form-data" class="space-y-4">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold mt-4">
+                    Save Note
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Content / Notes List -->
+    <div class="lg:col-span-2">
+        <h2 class="text-3xl font-bold mb-8 gradient-text">Your Notes</h2>
+        
+        {% if notes %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {% for note in notes %}
+                    <div class="glass-card p-6 flex flex-col hover:border-white/30 transition-all duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex flex-col space-y-2">
+                                <span class="px-2 py-1 bg-white/10 text-xs rounded text-gray-300 w-fit">{{ note.category.name }}</span>
+                                {% if note.status == 'Pending' %}
+                                    <span class="text-[10px] text-yellow-400 font-bold uppercase">● Pending Approval</span>
+                                {% elif note.status == 'Approved' %}
+                                    <span class="text-[10px] text-green-400 font-bold uppercase">● Approved</span>
+                                {% else %}
+                                    <span class="text-[10px] text-red-400 font-bold uppercase">● Rejected</span>
+                                {% endif %}
+                                {% if note.password %}
+                                    <span class="text-[10px] text-blue-400 font-bold uppercase">● Password Protected</span>
+                                {% endif %}
+                            </div>
+                            <span class="text-xs text-gray-500">{{ note.created_at|date:"M d, Y" }}</span>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2">{{ note.title }}</h4>
+                        <p class="text-gray-400 text-sm mb-6 flex-grow">{{ note.description|truncatewords:20 }}</p>
+                        
+                        <div class="mt-auto pt-4 border-t border-white/5">
+                            {% if note.status == 'Approved' %}
+                                <a href="{% url 'unlock_note' note.id %}" class="text-sm font-medium text-white hover:underline flex items-center">
+                                    {% if note.password %}
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                        </svg>
+                                        Unlock & Preview
+                                    {% else %}
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                        Preview & Download
+                                    {% endif %}
+                                </a>
+                            {% else %}
+                                <span class="text-sm text-gray-600 flex items-center cursor-not-allowed">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                    </svg>
+                                    Locked until approved
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="glass-card p-12 text-center">
+                <p class="text-gray-500">No notes yet. Start by uploading one!</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

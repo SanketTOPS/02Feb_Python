@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .container {
+            font-family: 'Inter', Helvetica, Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #000000;
+            color: #ffffff;
+            border-radius: 16px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: -1px;
+            color: #ffffff;
+            display: inline-block;
+        }
+        .content {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        .otp-code {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: 12px;
+            margin: 30px 0;
+            color: #ffffff;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+            color: #555555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">NotesVault</div>
+        </div>
+        <div class="content">
+            <h2 style="margin-top: 0;">Password Reset</h2>
+            <p style="color: #a0a0a0;">We received a request to reset your password. Use the verification code below to proceed.</p>
+            <div class="otp-code">{{ otp }}</div>
+            <p style="color: #a0a0a0; font-size: 14px;">If you didn't request a password reset, please ignore this email or contact support if you have concerns.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2026 NotesVault. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

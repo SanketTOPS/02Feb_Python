@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .container {
+            font-family: 'Inter', Helvetica, Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #000000;
+            color: #ffffff;
+            border-radius: 16px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: -1px;
+            color: #ffffff;
+            display: inline-block;
+        }
+        .content {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+            color: #555555;
+        }
+        .thank-you {
+            font-size: 32px;
+            font-weight: 800;
+            margin: 20px 0;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">NotesVault</div>
+        </div>
+        <div class="content">
+            <h1 class="thank-you">Thank You, {{ name }}!</h1>
+            <p style="color: #a0a0a0; font-size: 18px; line-height: 1.6;">We've received your message regarding "<strong>{{ subject }}</strong>".</p>
+            <p style="color: #a0a0a0; line-height: 1.6;">Our team is reviewing your inquiry and will get back to you as soon as possible (usually within 24 hours).</p>
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-style: italic; color: #777;">
+                "Helping you secure your knowledge, one note at a time."
+            </div>
+        </div>
+        <div class="footer">
+            <p>&copy; 2026 NotesVault. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

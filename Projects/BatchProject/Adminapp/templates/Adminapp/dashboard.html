@@ -1,0 +1,120 @@
+{% extends 'Userapp/base.html' %}
+
+{% block title %}Admin Dashboard - NotesVault{% endblock %}
+
+{% block content %}
+<div class="space-y-12">
+    <div class="flex justify-between items-center">
+        <h2 class="text-4xl font-bold gradient-text">Admin Control Center</h2>
+        <div class="flex space-x-4">
+            <div class="glass-card px-6 py-3">
+                <p class="text-xs text-gray-500 uppercase tracking-wider">Total Users</p>
+                <p class="text-2xl font-bold">{{ total_users }}</p>
+            </div>
+            <div class="glass-card px-6 py-3">
+                <p class="text-xs text-gray-500 uppercase tracking-wider">Total Notes</p>
+                <p class="text-2xl font-bold">{{ total_notes }}</p>
+            </div>
+            <a href="{% url 'admin_logout' %}" class="flex items-center px-6 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl transition-all border border-red-500/20">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                <span class="font-bold">Logout</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <!-- Users List -->
+        <div class="glass-card p-6">
+            <h3 class="text-xl font-semibold mb-6">Recent Users</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="text-gray-500 border-b border-white/10">
+                            <th class="pb-3 font-medium">User</th>
+                            <th class="pb-3 font-medium">Status</th>
+                            <th class="pb-3 font-medium">Joined</th>
+                            <th class="pb-3 font-medium text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5">
+                        {% for u in users %}
+                            <tr>
+                                <td class="py-4">
+                                    <div class="font-medium">{{ u.username }}</div>
+                                    <div class="text-xs text-gray-500">{{ u.email }}</div>
+                                </td>
+                                <td class="py-4">
+                                    {% if u.is_active %}
+                                        <span class="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded">Active</span>
+                                    {% else %}
+                                        <span class="px-2 py-1 bg-red-500/20 text-red-400 text-xs rounded">Blocked</span>
+                                    {% endif %}
+                                </td>
+                                <td class="py-4 text-sm text-gray-400">
+                                    {{ u.date_joined|date:"M d, Y" }}
+                                </td>
+                                <td class="py-4 text-right space-x-2">
+                                    <a href="{% url 'edit_user' u.id %}" class="text-xs text-blue-400 hover:underline">Edit</a>
+                                    {% if u.is_active %}
+                                        <a href="{% url 'block_user' u.id %}" class="text-xs text-orange-400 hover:underline">Block</a>
+                                    {% else %}
+                                        <a href="{% url 'unblock_user' u.id %}" class="text-xs text-green-400 hover:underline">Unblock</a>
+                                    {% endif %}
+                                    <a href="{% url 'delete_user' u.id %}" class="text-xs text-red-400 hover:underline" onclick="return confirm('Are you sure?')">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Recent Notes -->
+        <div class="glass-card p-6">
+            <h3 class="text-xl font-semibold mb-6">Latest Note Submissions</h3>
+            <div class="space-y-4">
+                {% for note in recent_notes %}
+                    <div class="p-4 bg-white/5 rounded-lg border border-white/5 hover:border-white/10 transition-colors">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="font-medium">{{ note.title }}</p>
+                                <p class="text-xs text-gray-500">by {{ note.user.username }} • {{ note.category.name }}</p>
+                                <div class="mt-2">
+                                    {% if note.status == 'Pending' %}
+                                        <span class="px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-[10px] uppercase font-bold rounded">Pending</span>
+                                    {% elif note.status == 'Approved' %}
+                                        <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-[10px] uppercase font-bold rounded">Approved</span>
+                                    {% else %}
+                                        <span class="px-2 py-0.5 bg-red-500/20 text-red-400 text-[10px] uppercase font-bold rounded">Rejected</span>
+                                    {% endif %}
+                                    {% if note.password %}
+                                        <span class="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-[10px] uppercase font-bold rounded">Locked</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-end space-y-2">
+                                <a href="{% url 'unlock_note' note.id %}" class="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors" title="Preview & Download">
+                                    {% if note.password %}
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                        </svg>
+                                    {% else %}
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                    {% endif %}
+                                </a>
+                                {% if note.status == 'Pending' %}
+                                    <div class="flex space-x-2">
+                                        <a href="{% url 'approve_note' note.id %}" class="text-[10px] bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700">Approve</a>
+                                        <a href="{% url 'reject_note' note.id %}" class="text-[10px] bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">Reject</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'Userapp/base.html' %}
+
+{% block title %}Login - NotesVault{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto">
+    <div class="glass-card p-8 shadow-2xl">
+        <h2 class="text-3xl font-bold mb-6 text-center gradient-text">Welcome Back</h2>
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            <div>
+                <label class="block text-sm font-medium text-gray-400 mb-1">Username</label>
+                <input type="text" name="username" class="input-field w-full p-3 rounded-lg" placeholder="Enter your username" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-400 mb-1">Password</label>
+                <input type="password" name="password" class="input-field w-full p-3 rounded-lg" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold mt-6">
+                Login
+            </button>
+        </form>
+        <div class="mt-4 text-center">
+            <a href="{% url 'forgot_password' %}" class="text-sm text-gray-500 hover:text-white transition-colors">Forgot Password?</a>
+        </div>
+        <p class="mt-6 text-center text-gray-500">
+            New here? <a href="{% url 'signup' %}" class="text-white hover:underline">Create an account</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

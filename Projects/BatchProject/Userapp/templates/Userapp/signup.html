@@ -1,0 +1,29 @@
+{% extends 'Userapp/base.html' %}
+
+{% block title %}Sign Up - NotesVault{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto">
+    <div class="glass-card p-8 shadow-2xl">
+        <h2 class="text-3xl font-bold mb-6 text-center gradient-text">Create Account</h2>
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            {% for field in form %}
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <p class="text-red-400 text-xs mt-1">{{ field.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold mt-6">
+                Send Verification OTP
+            </button>
+        </form>
+        <p class="mt-6 text-center text-gray-500">
+            Already have an account? <a href="{% url 'login' %}" class="text-white hover:underline">Login</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
